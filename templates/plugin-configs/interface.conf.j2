@@ -1,5 +1,12 @@
 LoadPlugin interface
 <Plugin "interface">
-	Interface "lo"
-	IgnoreSelected true
+	{% if collectd_interface_IgnoreSelected is defined %}
+	{% for if in collectd_df_fs_type|from_json %}
+	FSType "{{ if }}"
+	{% endfor %}
+	{% else %}
+	Interface "lo" 
+	{% endif %}
+
+	{% if collectd_interface_IgnoreSelected is defined %}	IgnoreSelected "{{ collectd_interface_IgnoreSelected|default('true') }}"{% endif %}
 </Plugin>
