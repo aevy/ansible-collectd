@@ -1,0 +1,45 @@
+- name: "Set collectd's config file destination"
+  set_fact: >
+    collectd_config_dest=/etc/collectd.d/collectd.conf
+    collectd_d_config_dir=/etc/collectd.d/collectd.conf.d
+  tags:
+    - collectd
+
+- name: "Install required packages"
+  apt : >
+    name={{ item }}
+    state=latest
+  with_items:
+    - git
+    - collectd
+    - collectd-core
+    - collectd-utils
+  tags:
+    - install
+    - collectd
+    - pkgs
+
+- name: "Load coretemp module on boot"
+  lineinfile: >
+    dest=/etc/modules
+    line=coretemp
+  when: monitor_coretemp
+  tags:
+    - collectd
+    - files
+
+- name: "Get Collectd version"
+  shell: |
+    executable=/bin/bash
+    v=$(dpkg-query --showformat='${Version}' --show collectd); echo "${v%.*}"
+  register: collectd_version
+  tags:
+    - collectd
+    - files
+
+- name: "Set version"
+  set_fact:
+    installed_version: "{{ collectd_version.stdout }}"
+  tags:
+    - collectd
+    - files
