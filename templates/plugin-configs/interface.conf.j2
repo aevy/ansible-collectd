@@ -1,7 +1,7 @@
 LoadPlugin interface
 <Plugin "interface">
-	{% if collectd_interface_IgnoreSelected is defined %}
-	{% for if in collectd_df_fs_type|from_json %}
+	{% if collectd_interfaces is defined %}
+	{% for if in collectd_interfaces|from_json %}
 	Interface "{{ if }}"
 	{% endfor %}
 	{% else %}
