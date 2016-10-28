@@ -1,17 +1,17 @@
 LoadPlugin df
 <Plugin df>
 {% if collectd_df_device is defined %}
-{% for device in collectd_df_device|from_json %}
+{% for device in collectd_df_device %}
     Device "{{ device }}"
 {% endfor %}
 {% endif %}
 {% if collectd_df_mountpoint is defined %}
-{% for mountpoint in collectd_df_mountpoint|from_json %}
+{% for mountpoint in collectd_df_mountpoint %}
     MountPoint "{{ mountpoint }}"
 {% endfor %}
 {% endif %}
 {% if collectd_df_fs_type is defined %}
-{% for fs in collectd_df_fs_type|from_json %}
+{% for fs in collectd_df_fs_type %}
     FSType "{{ fs|default('ext4') }}"
 {% endfor %}
 {% endif %}
