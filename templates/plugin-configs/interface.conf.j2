@@ -1,12 +1,14 @@
 LoadPlugin interface
 <Plugin "interface">
-	{% if collectd_interfaces is defined %}
-	{% for if in collectd_interfaces|from_json %}
+{% if collectd_interfaces is defined %}
+{% for if in collectd_interfaces %}
 	Interface "{{ if }}"
-	{% endfor %}
-	{% else %}
+{% endfor %}
+{% else %}
 	Interface "lo" 
-	{% endif %}
+{% endif %}
 
-	{% if collectd_interface_IgnoreSelected is defined %}	IgnoreSelected "{{ collectd_interface_IgnoreSelected|default('true') }}"{% endif %}
+{% if collectd_interface_IgnoreSelected is defined %}
+	IgnoreSelected "{{ collectd_interface_IgnoreSelected|default('true') }}"
+{% endif %}
 </Plugin>
