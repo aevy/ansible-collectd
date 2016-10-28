@@ -49,4 +49,4 @@ Interval     {{ collectd_interval|default('60') }}
 #WriteQueueLimitHigh 1000000
 #WriteQueueLimitLow   800000
 
-Include "/etc/collectd.d"
+Include "{{collectd_d_config_dir}}"
