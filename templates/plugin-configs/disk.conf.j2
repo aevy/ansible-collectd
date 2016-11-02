@@ -3,7 +3,7 @@ LoadPlugin disk
     {% for disk in collectd_disk_disks %}
     Disk "{{ disk }}"
     {% endfor %}
-	 {% elif collectd_disk_ignore_selected is defined and collectd_disk_ignore_selected == True %}
+	 {% if collectd_disk_ignore_selected is defined and collectd_disk_ignore_selected == True %}
     IgnoreSelected true
 	 {% else %}
     IgnoreSelected false
