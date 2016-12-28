@@ -40,6 +40,19 @@
     - files
     - configs
 
+- name: "Upload local-configs"
+  template: >
+    src={{ item }}.conf.j2
+    dest={{ collectd_d_config_dir }}/{{ item }}.conf
+    mode=0644
+  with_fileglob: files/collectd/{{ ansible_hostname }}/*
+  notify:
+    - Restart collectd
+  tags:
+    - collectd
+    - local_configs
+    - files
+    - configs
 - name: "Install coretemp plugin for collectd"
   copy: >
     src=collectd-coretemp.sh
