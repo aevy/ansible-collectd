@@ -52,8 +52,8 @@
 
 - name: "Upload local-configs"
   template: >
-    src={{ item }}.conf.j2
-    dest={{ collectd_d_config_dir }}/{{ item }}.conf
+    src={{ item }}
+    dest={{ collectd_d_config_dir }}/{{( item |basename| splitext )[0]}}
     mode=0644
   with_fileglob: files/collectd/{{ ansible_hostname }}/*.j2
   notify:
