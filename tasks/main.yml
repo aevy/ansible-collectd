@@ -67,7 +67,7 @@
 
 - name: "Upload extra scripts"
   copy: >
-    src={{ item }}.conf.j2
+    src={{ item }}
     dest=/usr/lib/collectd/
     mode=0644
   with_fileglob: files/collectd/scripts/*
