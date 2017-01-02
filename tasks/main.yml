@@ -27,6 +27,17 @@
     - files
     - configs
 
+- name: "Make sure /usr/lib/collectd is present"
+  file: >
+    path=/usr/lib/collectd
+    state=directory
+  tags:
+    - collectd
+    - local_configs
+    - local_scripts
+    - files
+    - configs
+
 - name: "Upload plugin configs"
   template: >
     src=plugin-configs/{{ item }}.conf.j2
@@ -45,7 +56,7 @@
     src={{ item }}.conf.j2
     dest={{ collectd_d_config_dir }}/{{ item }}.conf
     mode=0644
-  with_fileglob: files/collectd/{{ ansible_hostname }}/*
+  with_fileglob: files/collectd/{{ ansible_hostname }}/*.j2
   notify:
     - Restart collectd
   tags:
@@ -53,6 +64,20 @@
     - local_configs
     - files
     - configs
+
+- name: "Upload extra scripts"
+  copy: >
+    src={{ item }}.conf.j2
+    dest=/usr/lib/collectd/
+    mode=0644
+  with_fileglob: files/collectd/scripts/*
+  tags:
+    - collectd
+    - local_configs
+    - local_scripts
+    - files
+    - configs
+
 - name: "Install coretemp plugin for collectd"
   copy: >
     src=collectd-coretemp.sh
