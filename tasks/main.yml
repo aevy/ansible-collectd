@@ -27,9 +27,9 @@
     - files
     - configs
 
-- name: "Make sure /usr/lib/collectd is present"
+- name: "Make sure /usr/lib/collectd/scripts is present"
   file: >
-    path=/usr/lib/collectd
+    path=/usr/lib/collectd/scripts
     state=directory
   tags:
     - collectd
@@ -68,8 +68,9 @@
 - name: "Upload extra scripts"
   copy: >
     src={{ item }}
-    dest=/usr/lib/collectd/
-    mode=0644
+    dest=/usr/lib/collectd/scripts/
+    group=nogroup
+    mode=0664
   with_fileglob: files/collectd/scripts/*
   tags:
     - collectd
