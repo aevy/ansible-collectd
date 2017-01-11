@@ -18,9 +18,9 @@
     - pkgs
     - libs
 
-- name: "Make sure /etc/collectd.d is present"
+- name: "Make sure {{ collectd_d_config_dir }} is present"
   file: >
-    path=/etc/collectd.d
+    path={{ collectd_d_config_dir }}
     state=directory
   tags:
     - collectd
@@ -43,6 +43,19 @@
     dest={{ collectd_d_config_dir }}/{{ item }}.conf
     mode=0644
   with_items: collectd_plugins
+  notify:
+    - Restart collectd
+  tags:
+    - collectd
+    - files
+    - configs
+
+- name: "Generate auth-file"
+  template: >
+    src=auth.file.j2
+    dest={{ collectd_authfile }}
+    mode=0600
+  when: collectd_network_pass is defined
   notify:
     - Restart collectd
   tags:

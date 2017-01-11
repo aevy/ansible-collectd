@@ -13,6 +13,11 @@ LoadPlugin network
     {% elif collectd_forwarder is defined and collectd_forwarder != inventory_hostname %}
         <Server "{{ hostvars[collectd_forwarder]['private_ip']|default(hostvars[collectd_forwarder]['ansible_ssh_host']) }}" "25826">
                 Interface "{{ private_interface }}"
+            {% if collectd_network_pass is defined %}
+                SecurityLevel "sign"
+                Username "collectd"
+                Password "{{ collectd_network_pass }}"
+            {% endif %}
         </Server>
         TimeToLive 128
         {% else %}
@@ -20,8 +25,7 @@ LoadPlugin network
                 Interface "{{ private_interface }}"
             {% if collectd_network_pass is defined %}
                 SecurityLevel "sign"
-                Username "collectd"
-                Password "{{ collectd_network_pass }}"
+					 AuthFile "{{ collectd_authfile }}"
             {% endif %}
         </Listen>
         MaxPacketSize 4096
